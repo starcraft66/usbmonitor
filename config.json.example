@@ -1,5 +1,5 @@
 {
-    "USBMON": {
+    "MAIN": {
         "SLACK_HOOK_URL": "secret-url"
     }
 }

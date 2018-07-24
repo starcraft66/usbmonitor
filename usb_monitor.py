@@ -56,7 +56,7 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
         keyboard_test = Device(0x413C, 0x2003, 'keyboard')
 
         device_list = {usb_key, mouse_dongle, keyboard_test}
-        slack_hook = _config['SLACK_HOOK_URL']
+        slack_hook = _config['MAIN']['SLACK_HOOK_URL']
         pc_identifier = os.environ['COMPUTERNAME']
 
         while self._run:
