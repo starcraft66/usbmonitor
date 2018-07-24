@@ -29,6 +29,8 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
     _svc_name_ = "USBMonitoring"
     _svc_display_name_ = "USB Monitoring"
     _run = True
+    with open('config.json', 'r') as f:
+        _config = json.load(f)
 
     def __init__(self, args):
         win32serviceutil.ServiceFramework.__init__(self, args)
@@ -54,7 +56,7 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
         keyboard_test = Device(0x413C, 0x2003, 'keyboard')
 
         device_list = {usb_key, mouse_dongle, keyboard_test}
-        slack_hook = "scrubbed"
+        slack_hook = _config['SLACK_HOOK_URL']
         pc_identifier = os.environ['COMPUTERNAME']
 
         while self._run:
