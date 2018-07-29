@@ -30,7 +30,7 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
     _svc_name_ = "USBMonitoring"
     _svc_display_name_ = "USB Monitoring"
     _run = True
-    with open('config.json', 'r') as f:
+    with open('C:\\Windows\\usbmonitor.json', 'r') as f:
         _config = json.load(f)
 
     def __init__(self, args):
