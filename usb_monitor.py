@@ -9,6 +9,7 @@ import usb.util
 import win32event
 import win32service
 import win32serviceutil
+import time
 
 
 class Device(object):
@@ -76,6 +77,7 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
                     payload = {'channel': '#usb-monitoring', 'username': pc_identifier,
                                'text': 'Peripheral: ' + vendor.name + '\n Status: *' + vendor.status + '*'}
                     r = requests.post(slack_hook, data=json.dumps(payload))
+            time.sleep(1)
 
 
 if __name__ == '__main__':
