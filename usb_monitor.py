@@ -19,10 +19,10 @@ class Device(object):
     status = ""
 
     # The class "constructor" - It's actually an initializer
-    def __init__(self, v, p, n):
-        self.vendor = v
-        self.product = p
-        self.name = n
+    def __init__(self, vendor, product, name):
+        self.vendor = vendor
+        self.product = product
+        self.name = name
         self.status = 'plugged'
 
 
@@ -52,30 +52,35 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
         self.main()
 
     def main(self):
-        mouse_dongle = Device(0x046D, 0xC531, 'dongle')
-        usb_key = Device(0x125F, 0xDB8A, 'key')
-        keyboard_test = Device(0x413C, 0x2003, 'keyboard')
-
-        device_list = {usb_key, mouse_dongle, keyboard_test}
+        config_device_list = self._config['DEVICES']
+        device_list = []
         slack_hook = self._config['MAIN']['SLACK_HOOK_URL']
         pc_identifier = os.environ['COMPUTERNAME']
 
+        for config_device in config_device_list:
+            device = Device(
+                    vendor=int(config_device['VENDOR_ID'], 16),
+                    product=int(config_device['PRODUCT_ID'], 16),
+                    name=config_device['DISPLAY_NAME'],
+                )
+            device_list.append(device)
+
         while self._run:
-            for vendor in device_list:
+            for device in device_list:
                 # find our device
-                dev = usb.core.find(idVendor=vendor.vendor, idProduct=vendor.product)
+                usb_device = usb.core.find(idVendor=device.vendor, idProduct=device.product)
 
                 # was it found?
-                if dev is None and vendor.status is 'plugged':
-                    vendor.status = 'unplugged'
+                if usb_device is None and device.status is 'plugged':
+                    device.status = 'unplugged'
                     payload = {'channel': '#usb-monitoring', 'username': pc_identifier,
-                               'text': 'Peripheral: ' + vendor.name + '\n Status: *' + vendor.status + '*'}
+                               'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}
                     r = requests.post(slack_hook, data=json.dumps(payload))
 
-                if dev is not None and vendor.status is 'unplugged':
-                    vendor.status = 'plugged'
+                if usb_device is not None and device.status is 'unplugged':
+                    device.status = 'plugged'
                     payload = {'channel': '#usb-monitoring', 'username': pc_identifier,
-                               'text': 'Peripheral: ' + vendor.name + '\n Status: *' + vendor.status + '*'}
+                               'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}
                     r = requests.post(slack_hook, data=json.dumps(payload))
             time.sleep(1)
 

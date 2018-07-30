@@ -1,5 +1,27 @@
 {
     "MAIN": {
         "SLACK_HOOK_URL": "secret-url"
-    }
+    },
+    "DEVICES": [
+        {
+            "DISPLAY_NAME": "Logitech Mouse Dongle",
+            "VENDOR_ID": "046D",
+            "PRODUCT_ID": "C531"
+        },
+        {
+            "DISPLAY_NAME": "ADATA USB Key",
+            "VENDOR_ID": "125F",
+            "PRODUCT_ID": "DB8A"
+        },
+        {
+            "DISPLAY_NAME": "Dell Keyboard",
+            "VENDOR_ID": "413C",
+            "PRODUCT_ID": "2003"
+        },
+        {
+            "DISPLAY_NAME": "Acme Packet Phone",
+            "VENDOR_ID": "0D8C",
+            "PRODUCT_ID": "000E"
+        }
+    ]
 }
