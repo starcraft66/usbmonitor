@@ -36,5 +36,6 @@ else
 Copy-Item "\\otakudc.otakulan.net\usbmonitor$\\config.json" -Destination "C:\\Windows\\usbmonitor.json"
 Stop-Service -Name "USBMonitoring"
 Copy-Item "\\otakudc.otakulan.net\usbmonitor$\\dist\\usb_monitor.exe" -Destination "C:\\Windows\\usb_monitor.exe"
+Start-Process -FilePath "C:\\Windows\\usb_monitor.exe" -ArgumentList "--startup auto install" -Wait
 Start-Process -FilePath "C:\\Windows\\usb_monitor.exe" -ArgumentList "--startup auto update" -Wait
 Start-Process -FilePath "C:\\Windows\\usb_monitor.exe" -ArgumentList "start" -Wait
