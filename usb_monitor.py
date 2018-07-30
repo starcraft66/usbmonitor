@@ -74,13 +74,15 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
                 if usb_device is None and device.status is 'plugged':
                     device.status = 'unplugged'
                     payload = {'channel': '#usb-monitoring', 'username': pc_identifier,
-                               'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}
+                               'attachments': [{'color': '#FF0000', 'mrkdwn_in': ['text'],
+                               'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
                     r = requests.post(slack_hook, data=json.dumps(payload))
 
                 if usb_device is not None and device.status is 'unplugged':
                     device.status = 'plugged'
                     payload = {'channel': '#usb-monitoring', 'username': pc_identifier,
-                               'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}
+                               'attachments': [{'color': '#32CD32', 'mrkdwn_in': ['text'],
+                               'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
                     r = requests.post(slack_hook, data=json.dumps(payload))
             time.sleep(1)
 
