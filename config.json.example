@@ -1,6 +1,9 @@
 {
     "MAIN": {
-        "SLACK_HOOK_URL": "secret-url"
+        "TYPE": "DISCORD" or "SLACK"
+        "HOOK_URL": "secret-url",
+		"AVATAR_URL": "url for discord avatar, leave blank for slack",
+		"CHANNEL": "#name for slack and ###->id for discord"
     },
     "DEVICES": [
         {
