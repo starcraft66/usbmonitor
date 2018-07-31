@@ -52,10 +52,13 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
         self.main()
 
     def main(self):
+		type = self._config['MAIN']['TYPE']
         config_device_list = self._config['DEVICES']
         device_list = []
-        slack_hook = self._config['MAIN']['SLACK_HOOK_URL']
+        hook = self._config['MAIN']['HOOK_URL']
         pc_identifier = os.environ['COMPUTERNAME']
+		avatar_url = self._config['MAIN']['AVATAR_URL']
+		channel = self._config['MAIN']['CHANNEL']
 
         for config_device in config_device_list:
             device = Device(
@@ -73,17 +76,30 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
                 # was it found?
                 if usb_device is None and device.status is 'plugged':
                     device.status = 'unplugged'
-                    payload = {'channel': '#usb-monitoring', 'username': pc_identifier,
+					if type is 'SLACK':
+						payload = {'channel': channel, 'username': pc_identifier,
                                'attachments': [{'color': '#FF0000', 'mrkdwn_in': ['text'],
                                'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
-                    r = requests.post(slack_hook, data=json.dumps(payload))
+                    
+					if type is 'DISCORD':
+						payload = {'channel_id': '#lanops-notifications', 'username': pc_identifier,
+                               'avatar_url': avatar_url,
+                               'content': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
+                    
+					r = requests.post(hook, data=json.dumps(payload))
 
                 if usb_device is not None and device.status is 'unplugged':
                     device.status = 'plugged'
-                    payload = {'channel': '#usb-monitoring', 'username': pc_identifier,
+					if type is 'SLACK':
+						payload = {'channel': channel, 'username': pc_identifier,
                                'attachments': [{'color': '#32CD32', 'mrkdwn_in': ['text'],
                                'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
-                    r = requests.post(slack_hook, data=json.dumps(payload))
+                    if type is 'DISCORD':
+						payload = {'channel_id': '#lanops-notifications', 'username': pc_identifier,
+                               'avatar_url': avatar_url,
+                               'content': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
+                    
+					r = requests.post(hook, data=json.dumps(payload))
             time.sleep(1)
 
 
