@@ -1,30 +1,41 @@
 {
     "MAIN": {
-        "TYPE": "DISCORD" or "SLACK"
-        "HOOK_URL": "secret-url",
-		"AVATAR_URL": "url for discord avatar, leave blank for slack",
-		"CHANNEL": "#name for slack and ###->id for discord"
+        "TYPE": "SLACK"
+        "HOOK_URL": "",
+		"AVATAR_URL": "",
+		"CHANNEL": "#usb-monitoring"
     },
     "DEVICES": [
+        
         {
-            "DISPLAY_NAME": "Logitech Mouse Dongle",
-            "VENDOR_ID": "046D",
-            "PRODUCT_ID": "C531"
+            "DISPLAY_NAME": "Keyboard",
+            "VENDOR_ID": "1B1C",
+            "PRODUCT_ID": "1B13"
         },
-        {
-            "DISPLAY_NAME": "ADATA USB Key",
-            "VENDOR_ID": "125F",
-            "PRODUCT_ID": "DB8A"
+		{
+            "DISPLAY_NAME": "Mouse",
+            "VENDOR_ID": "1B1C",
+            "PRODUCT_ID": "1B05"
         },
-        {
-            "DISPLAY_NAME": "Dell Keyboard",
-            "VENDOR_ID": "413C",
-            "PRODUCT_ID": "2003"
+		{
+            "DISPLAY_NAME": "Mouse",
+            "VENDOR_ID": "1B1C",
+            "PRODUCT_ID": "1B12"
         },
-        {
-            "DISPLAY_NAME": "Acme Packet Phone",
-            "VENDOR_ID": "0D8C",
-            "PRODUCT_ID": "000E"
+		{
+            "DISPLAY_NAME": "Headset",
+            "VENDOR_ID": "1B1C",
+            "PRODUCT_ID": "0A03"
+        },
+		{
+            "DISPLAY_NAME": "Headset",
+            "VENDOR_ID": "1B1C",
+            "PRODUCT_ID": "1B2A"
+        },
+		{
+            "DISPLAY_NAME": "Keyboard",
+            "VENDOR_ID": "1B1C",
+            "PRODUCT_ID": "1B09"
         }
     ]
 }
