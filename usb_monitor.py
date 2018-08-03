@@ -52,13 +52,13 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
         self.main()
 
     def main(self):
-		type = self._config['MAIN']['TYPE']
+        type = self._config['MAIN']['TYPE']
         config_device_list = self._config['DEVICES']
         device_list = []
         hook = self._config['MAIN']['HOOK_URL']
         pc_identifier = os.environ['COMPUTERNAME']
-		avatar_url = self._config['MAIN']['AVATAR_URL']
-		channel = self._config['MAIN']['CHANNEL']
+        avatar_url = self._config['MAIN']['AVATAR_URL']
+        channel = self._config['MAIN']['CHANNEL']
 
         for config_device in config_device_list:
             device = Device(
@@ -76,30 +76,31 @@ class USBMonitoring(win32serviceutil.ServiceFramework):
                 # was it found?
                 if usb_device is None and device.status is 'plugged':
                     device.status = 'unplugged'
-					if type is 'SLACK':
-						payload = {'channel': channel, 'username': pc_identifier,
+                    payload = None
+                    if type == 'SLACK':
+                        payload = {'channel': channel, 'username': pc_identifier,
                                'attachments': [{'color': '#FF0000', 'mrkdwn_in': ['text'],
                                'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
                     
-					if type is 'DISCORD':
-						payload = {'channel_id': '#lanops-notifications', 'username': pc_identifier,
+                    if type == 'DISCORD':
+                        payload = {'channel_id': '#lanops-notifications', 'username': pc_identifier,
                                'avatar_url': avatar_url,
-                               'content': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
+                               'content': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}
                     
-					r = requests.post(hook, data=json.dumps(payload))
+                    r = requests.post(hook, data=json.dumps(payload))
 
                 if usb_device is not None and device.status is 'unplugged':
                     device.status = 'plugged'
-					if type is 'SLACK':
-						payload = {'channel': channel, 'username': pc_identifier,
+                    if type == 'SLACK':
+                        payload = {'channel': channel, 'username': pc_identifier,
                                'attachments': [{'color': '#32CD32', 'mrkdwn_in': ['text'],
                                'text': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
-                    if type is 'DISCORD':
-						payload = {'channel_id': '#lanops-notifications', 'username': pc_identifier,
+                    if type == 'DISCORD':
+                        payload = {'channel_id': '#lanops-notifications', 'username': pc_identifier,
                                'avatar_url': avatar_url,
-                               'content': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}]}
+                               'content': 'Peripheral: ' + device.name + '\nStatus: *' + device.status + '*'}
                     
-					r = requests.post(hook, data=json.dumps(payload))
+                    r = requests.post(hook, data=json.dumps(payload))
             time.sleep(1)
 
 

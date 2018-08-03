@@ -1,9 +1,9 @@
 {
     "MAIN": {
-        "TYPE": "SLACK"
+        "TYPE": "SLACK",
         "HOOK_URL": "",
-	"AVATAR_URL": "",
-	"CHANNEL": "#usb-monitoring"
+        "AVATAR_URL": "",
+        "CHANNEL": "#usb-monitoring"
     },
     "DEVICES": [
         {
@@ -11,27 +11,27 @@
             "VENDOR_ID": "1B1C",
             "PRODUCT_ID": "1B13"
         },
-	{
+        {
             "DISPLAY_NAME": "Mouse",
             "VENDOR_ID": "1B1C",
             "PRODUCT_ID": "1B05"
         },
-	{
+        {
             "DISPLAY_NAME": "Mouse",
             "VENDOR_ID": "1B1C",
             "PRODUCT_ID": "1B12"
         },
-	{
+        {
             "DISPLAY_NAME": "Headset",
             "VENDOR_ID": "1B1C",
             "PRODUCT_ID": "0A03"
         },
-	{
+        {
             "DISPLAY_NAME": "Headset",
             "VENDOR_ID": "1B1C",
             "PRODUCT_ID": "1B2A"
         },
-	{
+        {
             "DISPLAY_NAME": "Keyboard",
             "VENDOR_ID": "1B1C",
             "PRODUCT_ID": "1B09"
